@@ -7,7 +7,6 @@ export type HighlightArea = {
 
 export type Reply = {
   id: string;
-  parentId: string;
   message: string;
   author: string;
   createdAt: string;
