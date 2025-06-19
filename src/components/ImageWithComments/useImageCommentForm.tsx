@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import type { HighlightArea, Comment } from "../../types/commentType";
 import { createComment } from "./createComment.utils";
 
@@ -8,16 +8,19 @@ export const useImageCommentForm = (
   const [area, setArea] = useState<HighlightArea | null>(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
 
-  const handleImageClick = (e: React.MouseEvent<HTMLImageElement>) => {
-    if (isFormOpen) return;
+  const handleImageClick = useCallback(
+    (e: React.MouseEvent<HTMLImageElement>) => {
+      if (isFormOpen) return;
 
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+      const rect = e.currentTarget.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
 
-    setArea({ x, y, width: 10, height: 10 });
-    setIsFormOpen(true);
-  };
+      setArea({ x, y, width: 10, height: 10 });
+      setIsFormOpen(true);
+    },
+    [isFormOpen]
+  );
 
   const handleSubmit = (author: string, message: string) => {
     if (!area) return;
